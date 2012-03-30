@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>ADAppDelegate.m</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>ADAppDelegate.m</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="cp">//</span>
+<span class="cp">//  ADAppDelegate.m</span>
+<span class="cp">//  aloharDemo</span>
+<span class="cp">//</span>
+<span class="cp">//  Created by Sam Warmuth on 2/23/12.</span>
+<span class="cp">//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.</span>
+<span class="cp">//</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>import &ldquo;ADAppDelegate.h&rdquo;</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="k">@implementation</span> <span class="nc">ADAppDelegate</span>
+<span class="k">@synthesize</span> <span class="n">window</span> <span class="o">=</span> <span class="n">_window</span><span class="p">;</span>
+<span class="k">@synthesize</span> <span class="n">allPlaces</span><span class="p">,</span> <span class="n">motionState</span><span class="p">;</span>
+
+<span class="cm">/*Awesome!*/</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nl">application:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">application</span> <span class="nl">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">launchOptions</span>
+<span class="p">{</span>
+    <span class="c1">// Override point for customization after application launch.</span>
+    <span class="p">[</span><span class="n">Alohar</span> <span class="nl">startSession:</span><span class="s">@&quot;APIKey&quot;</span> <span class="nl">withDelegate:</span><span class="n">self</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">Alohar</span> <span class="n">startUpdatingMotionState</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">Alohar</span> <span class="n">startUpdatingUserStays</span><span class="p">];</span>
+    <span class="k">return</span> <span class="n">YES</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">didUpdateToMotionState:</span><span class="p">(</span><span class="n">ALMotionState</span> <span class="o">*</span><span class="p">)</span><span class="n">newMotionState</span> <span class="nl">fromMotionState:</span><span class="p">(</span><span class="n">ALMotionState</span> <span class="o">*</span><span class="p">)</span><span class="n">oldMotionState</span>
+<span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;New Motion State: %d&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">newMotionState</span><span class="p">.</span><span class="n">state</span> <span class="n">intValue</span><span class="p">]);</span>
+
+    <span class="n">self</span><span class="p">.</span><span class="n">motionState</span> <span class="o">=</span> <span class="n">newMotionState</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">didUpdateToUserStay:</span><span class="p">(</span><span class="n">ALUserStay</span> <span class="o">*</span><span class="p">)</span><span class="n">newStay</span> <span class="nl">fromUserStay:</span><span class="p">(</span><span class="n">ALUserStay</span> <span class="o">*</span><span class="p">)</span><span class="n">oldStay</span>
+<span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;New Motion State: %@&quot;</span><span class="p">,</span> <span class="n">newStay</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">placesRequestFinished:</span><span class="p">(</span><span class="n">ALResponse</span> <span class="o">*</span><span class="p">)</span><span class="n">response</span>
+<span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;places request completed: %d total places&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">count</span><span class="p">);</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">allPlaces</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="n">objects</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">aloharDidFailWithError:</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="n">error</span>
+<span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Sorry, there was an error with alohar: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+<span class="p">}</span>
+
+              
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">applicationWillResignActive:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">application</span>
+<span class="p">{</span>
+    <span class="c1">// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.</span>
+    <span class="c1">// Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">applicationDidEnterBackground:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">application</span>
+<span class="p">{</span>
+    <span class="c1">// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. </span>
+    <span class="c1">// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">applicationWillEnterForeground:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">application</span>
+<span class="p">{</span>
+    <span class="c1">// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">applicationDidBecomeActive:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">application</span>
+<span class="p">{</span>
+    <span class="c1">// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.</span>
+<span class="p">}</span>
+
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">applicationWillTerminate:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">application</span>
+<span class="p">{</span>
+    <span class="c1">// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.</span>
+<span class="p">}</span>
+
+<span class="k">@end</span></pre></div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
