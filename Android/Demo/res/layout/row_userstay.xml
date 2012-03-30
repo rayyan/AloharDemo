@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res/com.alohar"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:padding="10dip"
+  >
+  
+	<!-- main content layout -->
+	<TextView 
+		android:id="@+id/stay_name"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:singleLine="true"
+		android:ellipsize="end"
+		android:text="name"		
+		android:textColor="@color/text_blue"
+		android:textStyle="bold"
+	/>
+	
+	<TextView 
+		android:id="@+id/stay_address"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:singleLine="true"
+		android:ellipsize="end"
+		android:text="address"		
+	/>
+	
+	<TextView 
+		android:id="@+id/stay_period"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:ellipsize="end"
+		android:singleLine="false"
+		android:text="duration"		
+	/>
+	<TextView 
+		android:id="@+id/next"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:ellipsize="end"
+		android:singleLine="false"
+		android:text="Click to view candidates >>>"		
+		android:textColor="@color/text_orange"
+	/>
+</LinearLayout>

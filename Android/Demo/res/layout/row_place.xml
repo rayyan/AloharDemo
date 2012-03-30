@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:padding="10dip"
+  >
+  
+	<!-- main content layout -->
+	<TextView 
+		android:id="@+id/place_name"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:singleLine="true"
+		android:ellipsize="end"
+		android:textColor="@color/text_blue"
+		android:textStyle="bold"
+	/>
+	
+	<TextView 
+		android:id="@+id/place_address"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:singleLine="true"
+		android:ellipsize="end"
+		android:text="address"		
+	/>
+	
+	<TextView 
+		android:id="@+id/next"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:ellipsize="end"
+		android:singleLine="false"
+		android:textColor="@color/text_orange"
+		android:text="Click to view user stays >>>"		
+	/>
+	
+	
+</LinearLayout>

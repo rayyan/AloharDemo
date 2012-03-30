@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:padding="10dip"
+  >
+  
+	<TextView 
+		android:id="@+id/type"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:ellipsize="end"
+		android:textColor="@color/text_blue"
+		android:textStyle="bold"
+		android:text="event type"		
+	/>
+	<TextView 
+		android:id="@+id/time"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:ellipsize="end"
+		android:text="time"		
+		android:textColor="@color/text_orange"
+		android:textStyle="bold"
+	/>
+	<TextView 
+		android:id="@+id/stay"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:ellipsize="end"
+		android:text="stay detail"		
+	/>
+	
+</LinearLayout>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alohar SDK Reference</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://documentup.com/stylesheets/screen.css">
+    
+    
+
+    
+  </head>
+  <body><div id="nav">
+  <div id="header">
+    <a href="#" id="logo">Alohar SDK Reference</a>
+  </div>
+  <ul id="sections">
+    
+      <li>
+        <a href="#overview">Overview</a>
+        
+      </li>
+    
+      <li>
+        <a href="#configuration-and-userid-management">Configuration and UserId Management</a>
+        
+          <ul>
+            
+              <li>
+                <a href="#configuration-and-userid-management/environment-configuration">Environment Configuration</a>
+              </li>
+            
+              <li>
+                <a href="#configuration-and-userid-management/alohar-context-initialization">Alohar Context Initialization</a>
+              </li>
+            
+              <li>
+                <a href="#configuration-and-userid-management/userid-registration-authentication">UserId Registration/Authentication</a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="#core-service-management">Core Service Management</a>
+        
+          <ul>
+            
+              <li>
+                <a href="#core-service-management/method-references">Method References</a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="#place-manager">Place Manager</a>
+        
+          <ul>
+            
+              <li>
+                <a href="#place-manager/major-place-related-data-types">Major Place-Related Data Types</a>
+              </li>
+            
+              <li>
+                <a href="#place-manager/real-time-userstay-interface">Real Time Userstay Interface</a>
+              </li>
+            
+              <li>
+                <a href="#place-manager/method-reference">Method Reference</a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="#motion-state-manager">Motion State Manager</a>
+        
+          <ul>
+            
+              <li>
+                <a href="#motion-state-manager/data-elements">Data Elements</a>
+              </li>
+            
+              <li>
+                <a href="#motion-state-manager/real-time-interfaces">Real-Time Interfaces</a>
+              </li>
+            
+              <li>
+                <a href="#motion-state-manager/method-references">Method References</a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="#common-interfaces">Common Interfaces</a>
+        
+      </li>
+    
+      <li>
+        <a href="#new-feature-requests-questions">New Feature Requests &amp; Questions</a>
+        
+      </li>
+    
+  </ul>
+  
+  
+</div>
+<div id="content">
+  
+  <h1>Alohar Android SDK Reference Guide</h1>
+<p><strong>v0.5</strong>
+
+</p>
+<p>Alohar Mobile Inc develops the <strong>Alohar Mobile Location Behavior Platform</strong>, which understands mobile device user’s behavior by analyzing location and other mobile sensor data. The platform is composed of a smartphone client SDK (software development kit)  for Android and iPhone and several cloud-based services. The Alohar Mobile Location Behavior Platform uses mobile location, motion, wifi and timing data to learn about the mobile device user in real time and over time.  Therefore it provides more advanced functionality than a conventional mobile LBS (location based services) platform.
+
+</p>
+<p>Please read Alohar Developer APIs for a high level overview of the platfrom.
+To learn how to set up the Alohar Android SDK, please read the <a href="android_tutorial.html">Android Tutorial</a>.
+
+</p>
+<p>In this reference guide, we use &#34;the developer&#34; and &#34;you&#34; interchangeably. 
+
+</p>
+<h2 id='overview'>Overview</h2 id='overview'>
+<p>The Alohar SDK consists of four major components:
+
+</p>
+<ul><li><strong>Configuration and UserId Management</strong></li><li><strong>Core Service Management</strong></li><li><strong>Place and Userstay Management</strong></li><li><strong>Motion State Management</strong> </li></ul>
+<h2 id='configuration-and-userid-management'>Configuration and UserId Management</h2 id='configuration-and-userid-management'>
+<p>To start using the SDK,  a developer needs to do the following three steps:
+
+</p>
+<h3 id='configuration-and-userid-management/environment-configuration'>Environment Configuration</h3 id='configuration-and-userid-management/environment-configuration'>
+<p>The following permissions are required for SDK to function, the developer needs to add them in the manifest file.
+</p>
+<pre><code> <span class="comment">&lt;!-- permissions for the Alohar SDK --></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.INTERNET"</span> /></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_FINE_LOCATION"</span> /></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_COARSE_LOCATION"</span>/></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.READ_PHONE_STATE"</span> /></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_WIFI_STATE"</span> /></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.WAKE_LOCK"</span>/></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.RECEIVE_BOOT_COMPLETED"</span>/></span></code></pre>
+<p>The SDK runs as Android services in the background. The app must register the services in the manifest file:
+
+</p>
+<pre><code><span class="comment">&lt;!-- services --></span>
+<span class="tag">&lt;<span class="title">service</span> <span class="attribute">android:enabled</span>=<span class="value">"true"</span> <span class="attribute">android:name</span>=<span class="value">"com.alohar.core.ALCoreService"</span>/></span>
+<span class="tag">&lt;<span class="title">service</span> <span class="attribute">android:enabled</span>=<span class="value">"true"</span> <span class="attribute">android:name</span>=<span class="value">"com.alohar.core.ALMasterService"</span>/></span></code></pre>
+<h3 id='configuration-and-userid-management/alohar-context-initialization'>Alohar Context Initialization</h3 id='configuration-and-userid-management/alohar-context-initialization'>
+<p>The SDK provides a single global interface or context to manage its core service and other major components.  The singleton instance shall be initialized by calling <code>Alohar.init()</code> when the App starts. Once it is initialized, the instance can be accessed in the application by using Alohar.getInstance().  Through the Alohar context, the developer can manage the core service, place manager and motion manager. 
+
+</p>
+<p>As the very first action to use Alohar SDK, the app has to call the following method to initialize the Alohar context. It is recommended to be called when the application is initialized or in the onCreate method of the root activity:
+
+</p>
+<pre><code><span class="keyword">static</span> <span class="keyword">void</span> Alohar.init(Application context)</code></pre>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>context</em>: application context 
+
+</p>
+<p>After the Alohar is initialized, the developer can use the following method to get the global Alohar instance. This is also referred to as the Alohar context in the following description.
+
+</p>
+<pre><code><span class="keyword">static</span> Alohar Alohar.getInstance()</code></pre>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+</p>
+<h3 id='configuration-and-userid-management/userid-registration-authentication'>UserId Registration/Authentication</h3 id='configuration-and-userid-management/userid-registration-authentication'>
+<p>Alohar SDK does not require a username for the end-user of the app that the developer builds. Typically, the developer manages the personally identifiable user information themselves, such as keeping track of the email addresses of their users. Alohar does NOT need such user info. 
+
+</p>
+<p>However, Alohar SDK does require the app developer to register each of their user with Alohar SDK, using <code>Alohar.register()</code>. Note that the developer does not need to pass the application-specific username to Alohar SDK. <code>Alohar.register()</code> generates a unique UserId (<strong>UID</strong>). This UserId is for Alohar SDK to manage the specific user’s info.
+
+</p>
+<p>It is the developer’s responsibility to record the unique <strong>UID</strong> generated by register() to do authentication and retrieve data from Alohar in the future.
+
+</p>
+<p>The developer is responsible to maintain the mapping of their users and the Alohar userids.
+
+</p>
+<p>The second time the app is run for the specific user, the app uses the <strong>UID</strong> and calls <code>Alohar.authenticate()</code> from Alohar context to authenticate the user. Once the user is authenticated, the app can start to manage the core service and access user information from Alohar platform.
+
+</p>
+<h4>User Registration</h4>
+<p>After the Alohar context is initialized, the developer needs to register and authenticate their user in Alohar system. The SDK manages the authentication and authorization and securely communicate with the Alohar servers.
+
+</p>
+<p>To register a new end user of the developer’s app, use the following register method of the Alohar class, which returns an unique UserId (<strong>UID</strong>) if the call is valid. 
+Again, <strong>THE APP SHALL MANAGE THE ID PROPERLY TO RETRIEVE DATA IN THE FUTURE</strong>. 
+
+</p>
+<pre><code><span class="keyword">void</span> <span class="keyword">register</span>(<span class="keyword">int</span> appId, String apiKey, ALEventListener callback)</code></pre>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>appId</em>: the application ID granted from Alohar when developer registered its application.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>apiKey</em>: the unique key assigned to the given application granted from Alohar.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>callback</em>: event listener ALEventListener (@see <strong>Common Interfaces</strong>). It will be called with REGISTER_CALLBACK event if the operation is successful, which returns a userid, among other info.
+
+</p>
+<h4>User Authentication</h4>
+<p>For an existing user, call the following method to authenticate it, using the <strong>UID</strong> you have obtained from <code>Alohar.register()</code> in a previous run.
+
+</p>
+<pre><code><span class="keyword">void</span> authenticate(String uid, <span class="keyword">int</span> appId, String apiKey, ALEventListener callback)</code></pre>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>uid</em>: unique user id assigned to this user of the given application, obtained from Alohar.register() in a previous run.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>appId</em>: application ID granted from Alohar when developer registered its application. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>apiKey</em>: unique key assign to given application granted from Alohar.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>callback</em>: event listener ALEventListener (@see <strong>Common Interfaces</strong>). It will be called with  AUTHENTICATE_CALLBACK event if the operation is successful.
+
+</p>
+<p>After the app has valid <strong>UID</strong>, the application can start the core service of the SDK and utilize its power.
+
+</p>
+<h2 id='core-service-management'>Core Service Management</h2 id='core-service-management'>
+<p>The core service is the key component of the SDK. It intelligently collects sensor signals (e.g., GPS, wifi, accelerometer) and maintains the real time communication with the Alohar server system. 
+
+</p>
+<p>The developer can manually start the core service by calling <code>Alohar.startService()</code> from Alohar context. The started service can also be manually stopped by calling <code>Alohar.stopService()</code>.  
+
+</p>
+<p>The service will auto restart when the device reboots if the App does not stop it before it quits. The auto-start feature is desirable to provide best performance to the app&#146;s end user. It is enabled by default, the developer can turn it on by adding the following lines in the manifest file: 
+
+</p>
+<pre><code><span class="tag">&lt;<span class="title">receiver</span> <span class="attribute">android:name</span>=<span class="value">"com.alohar.core.ALBroadcastReceiver"</span> <span class="attribute">android:enabled</span>=<span class="value">"true"</span>></span>
+<span class="tag">&lt;<span class="title">intent-filter</span>></span>
+    <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.BOOT_COMPLETED"</span>></span><span class="tag">&lt;/<span class="title">action</span>></span>
+<span class="tag">&lt;/<span class="title">intent-filter</span>></span>
+<span class="tag">&lt;/<span class="title">receiver</span>></span></code></pre>
+<p>To completely shut down all components and release all resources of the SDK, the developer can call <code>tearDown()</code> after calling <code>stopService()</code>, which removes all cached data and resets all component and account information.
+
+</p>
+<h3 id='core-service-management/method-references'>Method References</h3 id='core-service-management/method-references'>
+<p>The following methods manage the life cycle of the core service. All these methods are accessible from the class Alohar, which is the global interface to the SDK. 
+
+</p>
+<ul><li>Start core service and set up other dependencies properly. </li></ul>
+<pre><code><span class="reserved">void</span> startService<span class="params">()</span>;</code></pre>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+</p>
+<ul><li>Stop core service. </li></ul>
+<pre><code><span class="reserved">void</span> stopService<span class="params">()</span>;</code></pre>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+</p>
+<ul><li>Stop all other components and release resource properly. Any methods call after the tear down is not guaranteed.  </li></ul>
+<pre><code><span class="reserved">void</span> tearDown<span class="params">()</span>;</code></pre>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+
+</p>
+<h2 id='place-manager'>Place Manager</h2 id='place-manager'>
+<p>Alohar SDK provides some very unique functions for one common requested information of every LBS service: place. It is not simply about the location of the user, but also provides interesting info about the place, such as the name of the place, the category of the place (e.g. restaurant and cuisine), the arrival and departure time of each visit of the place. It is automatic, meaning that it does not require manual check-in.
+
+</p>
+<p>To see how powerful these features are and understand how you can build interesting app on top them, you first need to get an instance of the Place Manager via the Alohar context. 
+
+</p>
+<pre><code>ALPlaceManager getPlaceManager<span class="params">()</span>;</code></pre>
+<p>Get Alohar place manager where you can register to listen for place events, query or search places and user stays. 
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Returns:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alohar Place Manager. 
+
+</p>
+<p>The PlaceManager supports the retrieval and search of the following place data types.
+
+</p>
+<h3 id='place-manager/major-place-related-data-types'>Major Place-Related Data Types</h3 id='place-manager/major-place-related-data-types'>
+<ul><li><strong>Place</strong>: detail information of a place visited by a user, including id, name, address, latitude(E6), longitude(E6), category, phone, web, iconUrl.</li><li><strong>UserStay</strong>: a visit of a place detected by Alohar core service. The stay has one selected place and a list of place candidates. It also stores an Alohar computed centroid (latitude, longitude) for reference in addition to other meta data including start time, end time, state, feedback, parent etc.</li><li><strong>PlaceProfile</strong>: a statistic profile of a place including visit count, time of first and last visit.</li><li><strong>ALLocation</strong>: a location entity used by Alohar service. It has latitude and longitude.  </li></ul>
+<h3 id='place-manager/real-time-userstay-interface'>Real Time Userstay Interface</h3 id='place-manager/real-time-userstay-interface'>
+<p>PlaceManager supports real time place detection, for example, when the user arrives at or leaves a place, certain events are generated. Developers can use the following callback interface to listen to those events.
+
+</p>
+<pre><code>ALPlaceEventListener</code></pre>
+<p>Provides callbacks for events when user arrives at or leaves a place.
+
+</p>
+<p><strong>Callback Methods:</strong><br>
+</p>
+<pre><code><span class="keyword">void</span> onArrival(<span class="keyword">double</span> latitude, <span class="keyword">double</span> longitude);</code></pre>
+<p>Called when user arrives at a place. It provides the place’s location.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>latitude</em>: double e.g. 34.432110<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>longitude</em>: double e.g. -122.103274<br>
+
+</p>
+<pre><code><span class="keyword">void</span> onDeparture(<span class="keyword">double</span> latitude, <span class="keyword">double</span> longitude);</code></pre>
+<p>Called when user leaves a place with the place’s location
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>latitude</em>:double <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>longitude</em>:double <br>
+
+</p>
+<pre><code><span class="reserved">void</span> onUserStayChanged<span class="params">(UserStay userStay)</span>;</code></pre>
+<p>Called when current userstay changes. Either a new userstay is detected, or some major attributes of the current userstay has changed.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>userStay</em>: updated current user stay with candidate list.<br>
+
+</p>
+<h3 id='place-manager/method-reference'>Method Reference</h3 id='place-manager/method-reference'>
+<p>The developer can use the following methods of <strong>ALPlaceManager</strong> to get place-related data.
+
+</p>
+<pre><code>ALLocation getCurrentLocation<span class="params">()</span></code></pre>
+<p>Get current alohar location
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+</p>
+<pre><code>UserStay getLastKnownStay<span class="params">()</span></code></pre>
+<p>Get last known user stay which might be different from the real current user stay depends on the alohar service. It shall be the current user stay in most cases.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+</p>
+<pre><code><span class="reserved">void</span> registerPlaceEventListener<span class="params">(ALPlaceEventListener listener)</span></code></pre>
+<p>Register a listener for events of any place. 
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>listener</em>: callback. See <strong>ALPlaceEventListener</strong>.
+
+</p>
+<pre><code>void registerPlaceEventListener(ALPlaceEventListener listener, <span class="keyword">String</span> namePattern, <span class="keyword">String</span> categoryPattern)</code></pre>
+<p>Register a listener for place events, including arrival and departure. The event can be further filtered by place name or category using regular expressions.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>listener</em>: callback. See ALPlaceEventListener.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>namePattern</em>: regular expression to match the place’s name.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>categoryPattern</em>: regular expression to match the place’s category.
+
+</p>
+<pre><code><span class="keyword">void</span> searchPlaces(<span class="keyword">long</span> startTime, <span class="keyword">long</span> endTime, String categoryPattern,   <span class="keyword">int</span> visitCountFilter, <span class="keyword">int</span> limit, <span class="keyword">final</span> ALEventListener callback)</code></pre>
+<p>Search visited places in a time window. The result can be further controlled by category filter, visit count filter. The total number of result is capped by the limit variable  with default value=500.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>startTime</em>: start time in seconds.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>endTime</em>: end time in seconds.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>categoryPattern</em>: regular expression to match the places, null to match all category. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>visitCountFilter</em>: matches places with visitcount &gt;= visitCountFilter. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>limit</em>: maximal result to return.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>callback</em>: ALEventLisener. The following events will be called back: <br>
+
+</p>
+<ul><li>If successful, ALEvents.PLACES_QUERY_CALLBACK. Data is a list of PlaceProfile.</li><li>If failed, ALEvents.GENERAL_ERROR_CALLBACK or ALEvents.SERVER_ERROR_CALLBACK. Data is the error message if available. </li></ul>
+<pre><code><span class="keyword">void</span> getUserStays(Place place, <span class="keyword">final</span> ALEventListener callback)</code></pre>
+<p>Fetch all user stays of a given place.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>place</em>: a place <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>callback</em>: ALEventLisener. Following events will be called back:<br>
+
+</p>
+<ul><li>If successful, ALEvents.USERSTATS_OF_A_PLACE_CALLBACK. Data is a list of UserStay.</li><li>If failed, ALEvents.GENERAL_ERROR_CALLBACK or ALEvents.SERVER_ERROR_CALLBACK. Data is the error message if available. </li></ul>
+<pre><code><span class="keyword">void</span> searchUserStays(<span class="keyword">double</span> latitude, <span class="keyword">double</span> longitude, <span class="keyword">int</span> radius, <span class="keyword">long</span> startTime, <span class="keyword">long</span> endTime, <span class="keyword">boolean</span> withCandiates, <span class="keyword">int</span> limit, ALEventListener callback)</code></pre>
+<p>Search user stays around a location in a time window. The total number of results is capped by the limit variable, with default=500.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>latitude</em>: latitude [-90,+90]. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>longitude</em>: longitude [-180,+180]. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>radius</em>: in meters &gt; 0. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>startTime</em>: start time in seconds.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>endTime</em>: end time in seconds.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>withCandiates</em>: true if want to fetch candidate list in each user stay. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>limit</em>: maximal result to return. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>callback</em>: ALEventLisener. The following events will be called back: <br>
+
+</p>
+<ul><li>If successful, ALEvents.USERSTAYS_QUERY_CALLBACK. Data is a list of UserStay.</li><li>If failed, ALEvents.GENERAL_ERROR_CALLBACK or ALEvents.SERVER_ERROR_CALLBACK. Data is the error message if available. </li></ul>
+<pre><code><span class="reserved">void</span> getCandidates<span class="params">(UserStay stay, ALEventListener callback)</span></code></pre>
+<p>Fetch the place candidate list of a given user stay.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>stay</em>: a user stay<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>callback</em>: ALEventLisener. Following events will be called back: <br>
+
+</p>
+<ul><li>If successful, ALEvents.USERSTAY_CANDIDATES_CALLBACK. Data is a list of Place.</li><li>If failed, ALEvents.GENERAL_ERROR_CALLBACK or ALEvents.SERVER_ERROR_CALLBACK. Data is the error message if presents. </li></ul>
+<h2 id='motion-state-manager'>Motion State Manager</h2 id='motion-state-manager'>
+<p>Besides places, Alohar SDK provides some powerful APIs for applications to get motion state information, such as stationary, walking, or driving. You need to get the motion manager instance first from Alohar context.
+
+</p>
+<pre><code>ALMotionManager getMotionManager<span class="params">()</span>;</code></pre>
+<p>Get motion manager where you can register to listen for motion state change, query user’s current motion state etc. see more here.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Returns:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alohar Motion Manager. 
+
+</p>
+<h3 id='motion-state-manager/data-elements'>Data Elements</h3 id='motion-state-manager/data-elements'>
+<p>Currently, Alohar SDK supports the following motion states.
+
+</p>
+<ul><li><strong>MotionState</strong>: a set of motion states supported such as STATIONARY, WALKING, MICROMOVEMENT etc. </li></ul>
+<h3 id='motion-state-manager/real-time-interfaces'>Real-Time Interfaces</h3 id='motion-state-manager/real-time-interfaces'>
+<p>The developer’s app can receive real-time events when user’s motion state changes, by using the  following real time event listener.
+
+</p>
+<pre><code>ALMotionListener</code></pre>
+<p>Provides the callbacks for the motion events.
+
+</p>
+<p><strong>Callback Methods:</strong><br>
+</p>
+<pre><code><span class="reserved">void</span> onMotionStateChanged<span class="params">(MotionState oldState, MotionState newState)</span>:</code></pre>
+<p>Called when a new motion state is detected. 
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>oldState</em>: old motion state.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>newState</em>: new motion state. <br>
+
+</p>
+<h3 id='motion-state-manager/method-references'>Method References</h3 id='motion-state-manager/method-references'>
+<p>Methods to listen or query device’s motion state through <strong>ALMotionManager</strong>.
+
+</p>
+<pre><code><span class="reserved">void</span> registerMotionListener<span class="params">(ALMotionListener listener)</span></code></pre>
+<p>Register a listener for motion state changes.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>listener</em>: motion listener. See ALMotionListener.
+
+</p>
+<pre><code>MotionState getCurrentMotionState<span class="params">()</span></code></pre>
+<p>Query user’s current motion state.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+</p>
+<pre><code><span class="keyword">boolean</span> isStationary()</code></pre>
+<p>Check whether user is not moving.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+</p>
+<pre><code><span class="keyword">boolean</span> isOnCommute()</code></pre>
+<p>Check whether user is on the road or not at a place.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Returns:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True if user is on the road. Otherwise False.
+
+
+</p>
+<h2 id='common-interfaces'>Common Interfaces</h2 id='common-interfaces'>
+<p><strong>ALEventListener</strong> is the key interface to interact with Alohar SDK from your Application. The SDK defines a set of events indicating the status of your request to Alohar platform. We use this event model to make all your service call asynchronous so that you don’t need to worry about the performance and focus more on developing your own killing features. The result of your request to Alohar platform will be made available to you automatically through a callback when it is ready.
+
+</p>
+<ul><li><strong>ALEvents</strong>: a set of events used for Alohar service callback.</li><li><strong>ALEventListener</strong> </li></ul>
+<p>Provides callback for alohar service request.
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Callback Methods:</strong><br>
+
+</p>
+<pre><code><span class="title">void</span> handleEvent(<span class="label">ALEvents</span> event, <span class="label">Object</span> <span class="class"><span class="keyword">data</span>);</span></code></pre>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called when an alohar service request is completed. The following event of type ALEvent are supported:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#149;&nbsp;&nbsp;&nbsp;GENERAL_ERROR_CALLBACK: connection error or other general failures.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#149;&nbsp;&nbsp;&nbsp;SERVER_ERROR_CALLBACK:  server request failure.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#149;&nbsp;&nbsp;&nbsp;USERSTAY_QUERY_CALLBACK: callback event for user stay query.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#149;&nbsp;&nbsp;&nbsp;PLACES_QUERY_CALLBACK: callback event for places query.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#149;&nbsp;&nbsp;&nbsp;USERSTAY_OF_A_PLACE_CALLBACK: callback event for user stay query of a given place.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#149;&nbsp;&nbsp;&nbsp;USERSTAY_CANDIDATES_CALLBACK: callback event for query place candidates.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#149;&nbsp;&nbsp;&nbsp;REGISTRATION_CALLBACK: callback event when a new user is successfully registered.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#149;&nbsp;&nbsp;&nbsp;AUTHENTICATE_CALLBACK: callback event when the alohar service is properly authenticated.
+
+
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Parameters:</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>event</em>: alohar event. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>data</em>: misc data attached to the callback.
+
+
+</p>
+<h2 id='new-feature-requests-questions'>New Feature Requests &amp; Questions</h2 id='new-feature-requests-questions'>
+<p>Alohar Android SDK is still in the beta state. We are working on new and cool features. If you have any new API feature requests or questions about the SDK, please contact us at: <a href="mailto:developer@alohar.com">developer@alohar.com</a>.
+
+</p>
+</div></body>
+</html>

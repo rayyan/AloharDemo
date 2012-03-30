@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alohar Android SDK Tutorial</title>
+    
+    <link rel="stylesheet" type="text/css" href="http://documentup.com/stylesheets/screen.css">
+    
+    
+
+    
+  </head>
+  <body><div id="nav">
+  <div id="header">
+    <a href="#" id="logo">Alohar Android SDK Tutorial</a>
+  </div>
+  <ul id="sections">
+    
+      <li>
+        <a href="#getting-started">Getting Started</a>
+        
+          <ul>
+            
+              <li>
+                <a href="#getting-started/register-your-android-app-with-alohar">Register Your Android App with Alohar</a>
+              </li>
+            
+              <li>
+                <a href="#getting-started/download-and-install-the-android-sdk">Download and Install the Android SDK</a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="#prepare-your-project">Prepare your project</a>
+        
+      </li>
+    
+      <li>
+        <a href="#how-to-use-the-sdk">How to use the SDK</a>
+        
+          <ul>
+            
+              <li>
+                <a href="#how-to-use-the-sdk/initialize-alohar-instance">Initialize Alohar Instance</a>
+              </li>
+            
+              <li>
+                <a href="#how-to-use-the-sdk/register-a-new-user">Register A New User</a>
+              </li>
+            
+              <li>
+                <a href="#how-to-use-the-sdk/authenticate-an-existing-user">Authenticate An Existing User</a>
+              </li>
+            
+              <li>
+                <a href="#how-to-use-the-sdk/start-stop-service">Start/Stop Service</a>
+              </li>
+            
+              <li>
+                <a href="#how-to-use-the-sdk/manage-places-and-user-stays">Manage Places and User Stays</a>
+              </li>
+            
+              <li>
+                <a href="#how-to-use-the-sdk/manage-motion-state">Manage Motion State</a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="#trouble-shooting">Trouble Shooting</a>
+        
+      </li>
+    
+      <li>
+        <a href="#sample-apps">Sample Apps</a>
+        
+      </li>
+    
+  </ul>
+  
+  
+</div>
+<div id="content">
+  
+  <h1>Alohar Android SDK Tutorial</h1>
+<p><strong>v0.5</strong>
+
+
+</p>
+<p>This document guides you through how to use the Alohar SDK for Android. We will walk through the key steps to building a Android app using Alohar SDK.
+
+</p>
+<h2 id='getting-started'>Getting Started</h2 id='getting-started'>
+<h3 id='getting-started/register-your-android-app-with-alohar'>Register Your Android App with Alohar</h3 id='getting-started/register-your-android-app-with-alohar'>
+<p>Log into the Alohar developer site to get your App ID and API Key. If you do not currently have a developer account, please signup now and create one.
+
+</p>
+<h3 id='getting-started/download-and-install-the-android-sdk'>Download and Install the Android SDK</h3 id='getting-started/download-and-install-the-android-sdk'>
+<ul><li><strong>Install <a href="http://www.eclipse.org/downloads/">Eclipse</a> if you don&apos;t have it already.</strong></li><li><strong>Install <a href="http://developer.android.com/sdk/index.html">Android SDK</a> &amp; the <a href="http://developer.android.com/sdk/eclipse-adt.html">Eclipse Plugin</a></strong></li><li><strong>For Emulator testing, create Virtual devices by going to Eclipse-&gt;Window-&gt;Android SDK and AVD Manager-&gt;Virtual devices</strong> </li></ul>
+<h2 id='prepare-your-project'>Prepare your project</h2 id='prepare-your-project'>
+<ul><li><strong>Download Alohar Android SDK for Your App from developer site.</strong> </li><li><strong>Add reference to the Alohar SDK</strong> </li></ul>
+<p>Copy <code>alohar_service.jar</code> to the project&#39;s libs folder
+
+</p>
+<p><img src="addLib.png" alt="alt addlib">
+
+</p>
+<p>If you use Eclipse, add the library to the project:
+
+</p>
+<p><img src="setUpLib.png" alt="alt setupLin">
+
+
+</p>
+<p>If you are using ant, you can use the following command to restore to use Android&#39;s build-in rules. You only need to put the alohar_service.jar in the libs folder.
+
+</p>
+<pre><code><span class="identifier">android</span> <span class="identifier"><span class="keymethods">update</span></span> <span class="identifier">project</span> --<span class="identifier"><span class="keymethods">name</span></span> <span class="constant">YourProjectName</span> --<span class="identifier">target</span> <span class="number">8</span> --<span class="identifier">path</span> <span class="constant">YourProjectPath</span></code></pre>
+<ul><li><strong>Setup Your Project&#39;s Settings</strong> </li></ul>
+<p>Alohar SDK requires minimal Android API level 8 and the following permissions to function. Add these permissions to your project’s manifest file (<em>AndroidManifest.xml</em>):
+
+</p>
+<pre><code><span class="comment">&lt;!-- permissions for the Alohar SDK --></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.INTERNET"</span> /></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_FINE_LOCATION"</span> /></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.READ_PHONE_STATE"</span> /></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_WIFI_STATE"</span> /></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.WAKE_LOCK"</span>/></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_COARSE_LOCATION"</span>/></span>
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.RECEIVE_BOOT_COMPLETED"</span>/></span>    
+<span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_NETWORK_STATE"</span>/></span></code></pre>
+<p>Alohar SDK has two daemon services running in the background. 
+
+</p>
+<p>Alohar platform performs the best if the services are running all the time. To enable auto-start after reboot, you can register a broadcast receiver in the manifest file as well:
+
+</p>
+<pre><code><span class="comment">&lt;!-- services --></span>
+<span class="tag">&lt;<span class="title">service</span> <span class="attribute">android:enabled</span>=<span class="value">"true"</span> <span class="attribute">android:name</span>=<span class="value">"com.alohar.core.ALCoreService"</span> /></span>
+<span class="tag">&lt;<span class="title">service</span> <span class="attribute">android:enabled</span>=<span class="value">"true"</span> <span class="attribute">android:name</span>=<span class="value">"com.alohar.core.ALMasterService"</span> /></span>
+<span class="tag">&lt;<span class="title">receiver</span> <span class="attribute">android:name</span>=<span class="value">"com.alohar.core.ALBroadcastReceiver"</span> <span class="attribute">android:enabled</span>=<span class="value">"true"</span>></span>
+  <span class="tag">&lt;<span class="title">intent-filter</span>></span>
+    <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.BOOT_COMPLETED"</span>></span><span class="tag">&lt;/<span class="title">action</span>></span>
+  <span class="tag">&lt;/<span class="title">intent-filter</span>></span>
+<span class="tag">&lt;/<span class="title">receiver</span>></span></code></pre>
+<p>Now, try to clean and compile your project, if there is no error, you are good to go. if you are using <em>ant</em>, try <code>ant clean</code> followed by <code>ant release</code>.
+
+</p>
+<h2 id='how-to-use-the-sdk'>How to use the SDK</h2 id='how-to-use-the-sdk'>
+<p>For complete details about the Alohar Android SDK, please refer to the <a href="android_reference.html">SDK reference</a> document.
+
+</p>
+<h3 id='how-to-use-the-sdk/initialize-alohar-instance'>Initialize Alohar Instance</h3 id='how-to-use-the-sdk/initialize-alohar-instance'>
+<p>An Alohar instance is required to perform all Alohar SDK operations.
+
+</p>
+<pre><code>Alohar.init<span class="params">(getApplication()</span>);
+Alohar mAlohar = Alohar.getInstance<span class="params">()</span>;</code></pre>
+<h3 id='how-to-use-the-sdk/register-a-new-user'>Register A New User</h3 id='how-to-use-the-sdk/register-a-new-user'>
+<p>If you haven’t, you need to register a new user as the following to perform any place or motion operations:
+
+</p>
+<pre><code>mAlohar.register<span class="params">(APP_ID, API_KEY, <span class="keyword">new</span> ALEventListener()</span>{
+    @Override
+    public <span class="reserved">void</span> handleEvent<span class="params">(ALEvents event, Object data)</span> {
+        <span class="keyword">if</span> <span class="params">(event == ALEvents.REGISTRATION_CALLBACK)</span> {
+            <span class="keyword">if</span> <span class="params">(data <span class="keyword">instanceof</span> String)</span> {
+                uid = <span class="params">(String)</span>data;
+            // Save UID <span class="keyword">for</span> future use
+        }
+        } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(event == ALEvents.GENERAL_ERROR_CALLBACK 
+        || event == ALEvents.SERVER_ERROR_CALLBACK)</span> {
+                // Fail to register <span class="keyword">or</span> authenticate
+        }
+
+    }
+});</code></pre>
+<p>Once you get the <strong>UID</strong> for this user, save the <strong>UID</strong> in your app or in your server system. Next time you run the app, you use the following method to authenticate the <strong>UID</strong>.
+
+</p>
+<h3 id='how-to-use-the-sdk/authenticate-an-existing-user'>Authenticate An Existing User</h3 id='how-to-use-the-sdk/authenticate-an-existing-user'>
+<p>If you already have an existing user, with the UID obtained from Alohar.register(),  use the following sample code to authenticate the user:
+
+</p>
+<pre><code>mAlohar.authenticate<span class="params">(uid, APP_ID, API_KEY, <span class="keyword">new</span> ALEventListener()</span>{
+    @Override
+    public <span class="reserved">void</span> handleEvent<span class="params">(ALEvents event, Object data)</span> {
+        <span class="keyword">if</span> <span class="params">(event == ALEvents.AUTHENTICATE_CALLBACK)</span> {
+            <span class="keyword">if</span> <span class="params">(data <span class="keyword">instanceof</span> String)</span> {
+                uid = <span class="params">(String)</span>data;
+            // Save UID <span class="keyword">for</span> future use
+        }
+        } <span class="keyword">else</span> <span class="keyword">if</span> <span class="params">(event == ALEvents.GENERAL_ERROR_CALLBACK 
+        || event == ALEvents.SERVER_ERROR_CALLBACK)</span> {
+                // Fail to register <span class="keyword">or</span> authenticate
+            }
+    }
+});</code></pre>
+<p>All the following operations are for the authenticated UID.
+
+</p>
+<h3 id='how-to-use-the-sdk/start-stop-service'>Start/Stop Service</h3 id='how-to-use-the-sdk/start-stop-service'>
+<p>You use <code>Alohar.startService()</code> to start the background service, and use <code>Alohar.stopService()</code> to stop the background service.
+
+</p>
+<pre><code>mAlohar.startService();            <span class="comment">//start service</span>
+mAlohar.stopService();            <span class="comment">//stop service</span></code></pre>
+<h3 id='how-to-use-the-sdk/manage-places-and-user-stays'>Manage Places and User Stays</h3 id='how-to-use-the-sdk/manage-places-and-user-stays'>
+<p>Use the <em>ALPlaceManager</em> instance to perform place and userstay-related operations.
+
+</p>
+<pre><code>// Get the ALPlaceManager to access user stays <span class="keyword">and</span> places
+ALPlaceManager mPlaceManager = mAlohar.getPlaceManager<span class="params">()</span>;</code></pre>
+<h4>Information Retrieval and Search</h4>
+<p>Once you have the <em>ALPlaceManager</em> instance,  you can perform queries on userstays, current-location, or search for places base on some criteria.
+
+</p>
+<pre><code><span class="comment">// Get the last known local user stay</span>
+UserStay lastKnownStay = mPlaceManager.getLastKnownStay();
+
+<span class="comment">// Get the current location</span>
+ALLocation curLoc = mPlaceManager.getCurrentLocation();
+
+<span class="comment">// Search places based on some criteria</span>
+mPlaceManager.searchPlaces(<span class="number">0</span>, System.currentTimeMillis()/ <span class="number">1000</span>, <span class="string">".*"</span>, 
+    <span class="number">0</span>, <span class="number">10</span>, <span class="keyword">new</span> ALEventListener() {
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> handleEvent(ALEvents <span class="keyword">event</span>, Object data) {
+        <span class="keyword">if</span> (<span class="keyword">event</span> == ALEvents.PLACES_QUERY_CALLBACK) {
+            places = (ArrayList&lt;PlaceProfile>)data;
+            <span class="comment">// Post process the places</span>
+        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">event</span> == ALEvents.GENERAL_ERROR_CALLBACK 
+        || <span class="keyword">event</span> == ALEvents.SERVER_ERROR_CALLBACK) {
+            <span class="comment">// Error handling</span>
+        }
+    }
+});
+
+<span class="comment">// Search user stays</span>
+<span class="keyword">private</span> <span class="keyword">double</span> latitudeE6 = <span class="number">37.432110</span>;
+<span class="keyword">private</span> <span class="keyword">double</span> longitudeE6 = -<span class="number">122.103274</span>;
+
+mPlaceManager.searchUserStays(latitude, longitude, <span class="number">500</span>, <span class="number">0</span>, System.currentTimeMillis()/<span class="number">1000</span>, 
+<span class="keyword">true</span>, <span class="number">100</span>, <span class="keyword">new</span> ALEventListener() {
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> handleEvent(ALEvents <span class="keyword">event</span>, Object data) {
+        <span class="keyword">if</span> (<span class="keyword">event</span> == ALEvents.USERSTAYS_QUERY_CALLBACK) {
+            userStays = (ArrayList&lt;UserStay>)data;
+            <span class="comment">// Post process the userstays</span>
+        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">event</span> == ALEvents.GENERAL_ERROR_CALLBACK 
+        || <span class="keyword">event</span> == ALEvents.SERVER_ERROR_CALLBACK) {
+            <span class="comment">// Error handling</span>
+        } 
+    }
+});
+
+<span class="comment">// Get user stays of a given place</span>
+Place place = ...
+mPlaceManager.getUserStays(place, <span class="keyword">new</span> ALEventListener() {
+    @Override
+    <span class="keyword">public</span> <span class="keyword">void</span> handleEvent(ALEvents <span class="keyword">event</span>, Object data) {
+        <span class="keyword">if</span> (<span class="keyword">event</span> == ALEvents.USERSTATS_OF_A_PLACE_CALLBACK) {
+            userStays = (ArrayList&lt;UserStay>)data;
+            <span class="comment">// Post process userstays</span>
+        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">event</span> == ALEvents.GENERAL_ERROR_CALLBACK 
+        || <span class="keyword">event</span> == ALEvents.SERVER_ERROR_CALLBACK) {
+            <span class="comment">// Error handling</span>
+        }
+    }
+
+});</code></pre>
+<h4>Real Time Callbacks</h4>
+<p>You register the following event listener to get callbacks when the user arrives at a new place, or the place name is detected, or the user departs from a place.
+
+</p>
+<pre><code><span class="comment">// Listen for place events</span>
+mPlaceManager.registerPlaceEventListener(<span class="keyword">new</span> ALPlaceEventListener() {
+    <span class="comment">// This is called when the user arrives at a new place</span>
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> onArrival(<span class="keyword">double</span> latitude, <span class="keyword">double</span> longitude) {
+        <span class="comment">// Process the arrival event</span>
+    }
+
+    <span class="comment">// This is called when the user departs from a place</span>
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> onDeparture(<span class="keyword">double</span> latitude, <span class="keyword">double</span> longitude) {
+        <span class="comment">// Process the departure event</span>
+    }
+
+    <span class="comment">// This is called when the system detects the name of the place the user stays at</span>
+    <span class="comment">// or there is some significant attribute change of the userstay.</span>
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> onUserStayChanged(UserStay newUserStay){
+    <span class="comment">// Process the userstay change. </span>
+    }    
+
+});</code></pre>
+<p>Typically, shortly after the user arrives at a place, the <code>onArrival()</code> method is called. Then when the name of the place is detected, the <code>onUserStayChanged()</code> method is called, and finally after the user departs from a place, the <code>onDeparture()</code> method is called.
+
+</p>
+<h3 id='how-to-use-the-sdk/manage-motion-state'>Manage Motion State</h3 id='how-to-use-the-sdk/manage-motion-state'>
+<p>You use <em>ALMotionManager</em> to perform all motion-state-related options.
+
+</p>
+<pre><code>// Get MotionManager to access motion state information
+ALMotionManager mMotionManager = mAlohar.getMotionManager<span class="params">()</span>;
+Motion State Information Retrieval
+// Get current motion state
+MotionState currentState = mMotionManager.getCurrentMotionState<span class="params">()</span>
+
+// Check whether user <span class="keyword">is</span> <span class="keyword">not</span> moving
+boolean stationary = mMotionManager.isStationary<span class="params">()</span>
+
+// Check whether user <span class="keyword">is</span> <span class="literal">on</span> the road
+boolean onTheRoad = mMotionManager.isOnCommute<span class="params">()</span></code></pre>
+<h4>Real Time Callbacks</h4>
+<p>You register the following event listener to get callbacks when the user’s motion state is changed.
+
+</p>
+<pre><code><span class="comment">//listen motion events</span>
+mMotionManager.registerMotionListener(<span class="keyword">new</span> ALMotionListener(){
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> onMotionStateChanged(MotionState oldState, MotionState newState) {
+        <span class="comment">//post process</span>
+    }
+});</code></pre>
+<h2 id='trouble-shooting'>Trouble Shooting</h2 id='trouble-shooting'>
+<p>Contact us: <a href="mailto:developer@alohar.com">developer@alohar.com</a>
+
+</p>
+<h2 id='sample-apps'>Sample Apps</h2 id='sample-apps'>
+<p>Download the Alohar Android Demo app here: <a href="../Sample/Demo.apk">SDKDemo</a>
+
+</p>
+<p>Download the Alohar showcase app <a href="https://play.google.com/store/apps/details?id=com.alohar">Placeme</a> from the android market.
+</p>
+</div></body>
+</html>

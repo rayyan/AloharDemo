@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+    >
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:padding="10dip"
+		android:orientation="vertical" >
+	
+    	<LinearLayout 
+		    android:id="@+id/auth_layout" 
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:orientation="vertical"
+			android:visibility="gone"
+    	    >
+			
+    	    <EditText
+    	        android:id="@+id/uid"
+    	        android:layout_width="fill_parent"
+    	        android:layout_height="wrap_content"
+    	        android:hint="copy your uid"
+    	        />
+    	    <Button 
+    	        android:layout_width="fill_parent"
+    	        android:layout_height="wrap_content"
+    	        android:text="authenticate"
+    	        android:onClick="onAuthenClick"
+    	        />
+
+    	    <TextView 
+   	        	android:layout_width="fill_parent"
+   	        	android:layout_height="wrap_content"
+   	        	android:text="====== OR ====="
+    	        />
+    	   
+    	   <Button 
+    	        android:layout_width="fill_parent"
+    	        android:layout_height="wrap_content"
+    	        android:text="click to register a new user"
+    	        android:onClick="onRegisterClick"
+    	        />
+    	    	    	    
+    	   	
+    	</LinearLayout>
+
+    	<ProgressBar 
+			android:id="@+android:id/progress_spin"
+			style="?android:attr/progressBarStyleSmall"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:visibility="gone"
+			android:paddingTop="5dip"/>
+    	    	
+    	<LinearLayout 
+    	    android:id="@+id/main_layout"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:orientation="vertical"
+    	    android:visibility="gone"
+    	    >
+
+   	        <TextView 
+   	        	android:layout_width="fill_parent"
+   	        	android:layout_height="wrap_content"
+   	        	android:textColor="@color/text_blue"
+   	        	android:textStyle="bold"
+   	        	android:text="[UID]:"
+   	        />
+    	    	   
+    	    <TextView 
+    	        	android:id="@+id/account"
+    	        	android:layout_width="fill_parent"
+    	        	android:layout_height="wrap_content"
+    	        	android:textColor="@color/text_orange"
+    	        	android:textStyle="bold"
+	    	        android:paddingLeft="10dip"
+    	        />
+
+    	     <TextView 
+   	        	android:layout_width="fill_parent"
+   	        	android:layout_height="wrap_content"
+   	        	android:textColor="@color/text_blue"
+   	        	android:textStyle="bold"
+   	        	android:text="[Service]:"/>
+    	   	
+	    	    <TextView 
+	    	        android:id="@+id/service_status"
+	    	        android:layout_width="wrap_content"
+	    	        android:layout_height="wrap_content"
+	    	        android:paddingLeft="10dip"
+	    	        />
+	    	    
+				<ToggleButton
+				    android:id="@+id/toggle"
+				    android:layout_height="wrap_content"
+				    android:layout_width="wrap_content"
+				    android:textOn="Turn Service Off"
+				    android:textOff="Turn Service On"
+				    android:checked="false"
+					android:onClick="onServiceClick"
+	    	        android:paddingLeft="10dip"/>
+    	    
+    	     <TextView 
+   	        	android:layout_width="fill_parent"
+   	        	android:layout_height="wrap_content"
+   	        	android:textColor="@color/text_blue"
+   	        	android:textStyle="bold"
+   	        	android:text="[Motion State]:"/>
+    	   	
+    	   	<TextView 
+   	        	android:id="@+id/motion_state"
+   	        	android:layout_width="fill_parent"
+   	        	android:layout_height="wrap_content"
+   	        	android:text="unknown"
+   	        	android:paddingLeft="10dip"
+    	      />
+
+    	   	 <TextView 
+   	        	android:id="@+id/user_state"
+   	        	android:layout_width="fill_parent"
+   	        	android:layout_height="wrap_content"
+   	        	android:text=""
+   	        	android:paddingLeft="10dip"
+    	      />
+    	   	
+    	   	<TextView 
+   	        	android:layout_width="fill_parent"
+   	        	android:layout_height="wrap_content"
+   	        	android:textColor="@color/text_blue"
+   	        	android:textStyle="bold"
+   	        	android:text="[Current User Stay]:"/>
+    	   	
+     	    <TextView 
+    	        android:id="@+id/current_stay"
+    	        android:layout_width="fill_parent"
+    	        android:layout_height="wrap_content"
+    	        android:text="No Current Stay"
+   	        	android:paddingLeft="10dip"
+    	        />	    
+
+    	   	<TextView 
+   	        	android:layout_width="fill_parent"
+   	        	android:layout_height="wrap_content"
+   	        	android:textColor="@color/text_blue"
+   	        	android:textStyle="bold"
+   	        	android:text="[Places/Stays Samples]:"/>
+
+    	    <Button
+    	        android:layout_width="wrap_content"
+    	        android:layout_height="wrap_content"
+    	        android:text="Show All Places Visited"
+    	        android:onClick="onSearchPlaceProfiles"
+   	        	android:paddingLeft="10dip"
+    	        />     	    
+    	    <Button
+    	        android:layout_width="wrap_content"
+    	        android:layout_height="wrap_content"
+    	        android:text="Show Stays near Alohar Mobile Inc."
+    	        android:onClick="onSearchUserStays"
+   	        	android:paddingLeft="10dip"
+    	        />     	    
+
+    	    <Button
+    	        android:layout_width="wrap_content"
+    	        android:layout_height="wrap_content"
+    	        android:text="Show Place Events"
+    	        android:onClick="onShowPlaceEvents"
+   	        	android:paddingLeft="10dip"
+    	        />
+    	    	</LinearLayout>
+	</LinearLayout>
+</ScrollView>
+
+    
