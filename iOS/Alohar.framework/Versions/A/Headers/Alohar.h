@@ -19,7 +19,7 @@
 @protocol ALSessionDelegate <NSObject>
 @optional
 /*!
- * Callback when user successfuly logined.
+ * Callback when user successfuly logs in.
  * \param userID The unique user ID in alohar system. The ID shall be kept safely for future use.
  */
 - (void)aloharDidLogin:(NSString *)userID;
@@ -42,13 +42,13 @@
 - (void)aloharRequestFinished:(ALResponse *)response;
 /*!
  *Callback when request fails with error.
- * \param error Detail error infomation.
+ * \param error Detailed error infomation.
  */
 - (void)aloharDidFailWithError:(NSError *)error;
 @end
 
 /*!
- * Protocol to listen motion state updates.
+ * Protocol to listen to motion state updates.
  */
 @protocol ALMotionDelegate <NSObject>
 @optional
@@ -63,7 +63,7 @@
 @end
 
 /*!
- * Protocol to listen real time events such as arrival, departure and user stay detection.
+ * Protocol to listen to real time events such as arrival, departure and user stay detection.
  */
 @protocol ALUserStayDelegate <NSObject>
 @optional
@@ -117,12 +117,11 @@ enum {
 @property (weak) id <ALMotionDelegate>   motionDelegate;
 @property (weak) id <ALUserStayDelegate> userStayDelegate;
 
-@property BOOL updateMotionState;
 @property (nonatomic, strong) ALMotionState *currentMotionState;
 
 
 /*!
- * Get the Shared Instnace of Alohar
+ * Get the Shared Instance of Alohar
  */
 + (Alohar *)sharedInstance;
 
@@ -149,7 +148,7 @@ enum {
  * \param appID The AppID assigned for the App.
  * \param APIKey The ApiKey assigned to the App.
  * \param userID The unique user ID assigned from Alohar from registration.
- * \param delegate A delegate comform to ALSessionDelegate
+ * \param delegate A delegate that conforms to the ALSessionDelegate protocol.
  */
 + (void)authenticateWithAppID:(NSString *)appID andAPIKey:(NSString *)APIKey andUserID:(NSString *)userID withDelegate:(id<ALSessionDelegate>)delegate;
 
@@ -167,17 +166,17 @@ enum {
 + (ALUserStay *)currentUserStay;
 
 /*!
- * Get user's user stays of a given date
- * \param date The date to search user stay
- * \param delegate A delegate comform to protocol ALRequestDelegate
+ * Get the user's user stays for a given date.
+ * \param date The date to search user stay.
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  */
 + (void)getUserStaysForDate:(NSDate *)date withDelegate:(id <ALRequestDelegate>)delegate;
 
 /*!
- * Get user's user stays within a time period
- * \param startDate The start time
- * \param endDate The end time
- * \param delegate A delegate comform to protocol ALRequestDelegate
+ * Get the user's user stays within a time period
+ * \param startDate The start time.
+ * \param endDate The end time.
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  */
 + (void)getUserStaysFromDate:(NSDate *)startDate toDate:(NSDate *)endDate withDelegate:(id <ALRequestDelegate>)delegate;
  
@@ -189,16 +188,16 @@ enum {
  * \param location The centroid location of the search area. Optional.
  * \param radius The search radius in meter. Optinal. Skip if the location is not provided.
  * \param limit The limitation of total number matches to return. Optional. The default is 500.
- * \param withcand Flag to indicate whether the user stay shall include its candidates. Optional. The default is NO.
- * \param delegate A delegate comform to protocol ALRequestDelegate
+ * \param includeCand Flag to indicate whether the user stay shall include its candidates. Optional. The default is NO.
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  * 
  */
-+ (void)getUserStaysFromDate:(NSDate *)startDate toDate:(NSDate *)endDate atLocation:(CLLocation *)location radius:(NSInteger)radius limit:(NSInteger)limit withCandidiates:(BOOL)withcand withDelegate:(id<ALRequestDelegate>)delegate;
++ (void)getUserStaysFromDate:(NSDate *)startDate toDate:(NSDate *)endDate atLocation:(CLLocation *)location radius:(NSInteger)radius limit:(NSInteger)limit includeCandidiates:(BOOL)includeCand withDelegate:(id<ALRequestDelegate>)delegate;
 
 /*!
- * Get all places user visisted.
+ * Get all places a user visited.
  * 
- * \param delegate A delegate comform to ALRequestDelegate
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  * 
  * *NOTE* The response might be large depends on the total number of the places user visisted. Recommend to use getPlaces:withCategory:withDelegate instead. 
  */
@@ -208,7 +207,7 @@ enum {
  * Get places user visited and match the given name
  * 
  * \param namePattern The regular expression to match the place name.
- * \param delegate The delegate comform to protocol ALRequestDelegate
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  */
 
 + (void)getPlaces:(NSString *)namePattern withDelegate:(id<ALRequestDelegate>)delegate;
@@ -217,100 +216,100 @@ enum {
  * 
  * \param namePattern The regular expression to match the place name
  * \param catPattern The regular expression to match the place's category
- * \param delegate A delegate comform to ALRequestDelegate
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  */
 
 + (void)getPlaces:(NSString *)namePattern withCategory:(NSString *)catPattern withDelegate:(id<ALRequestDelegate>)delegate;
 
 /*!
- * Get places user visisted within a time window match the given category
+ * Get places the user visited within a time window that match the category regex.
  * 
  * \param namePattern The regular expression for the place name
  * \param startDate The start time
- * \param toDate The end Time
+ * \param endDate The end Time
  * \param visits The mininal numer of visits required for that places. Optioanl. The default is 1.
  * \param catPattern The regular expression to match the place's category
  * \param limit The limitation of total number matches to return. Optional. The default is 500.
- * \param delegate The delegate comform to protocol ALRequestDelegate
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  */
-+ (void)getPlaces:(NSString *)namePattern fromDate:(NSDate *)startDate toDate:(NSDate *)toDate minimalVisits:(NSInteger)visits withCategory:(NSString *)catPattern limit:(NSInteger)limit withDelegate:(id<ALRequestDelegate>)delegate;
++ (void)getPlaces:(NSString *)namePattern fromDate:(NSDate *)startDate toDate:(NSDate *)endDate minimalVisits:(NSInteger)visits withCategory:(NSString *)catPattern limit:(NSInteger)limit withDelegate:(id<ALRequestDelegate>)delegate;
 
 /*!
- * Get place candidates of a given user stay.
+ * Get the place candidates of a user stay.
  * 
  * \param stay A user stay. @see ALUserStay
- * \param delegate A delegate comform to protocol ALRequestDelegate
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  */
 + (void)getPlaceCandidatesForStay:(ALUserStay *)stay withDelegate:(id<ALRequestDelegate>)delegate;
 
 /*!
- * Get all stays of a given place.
+ * Get all user stays of a place.
  *
  * \param place A place. @see ALPlace
- * \param delegate A delegate comform to protocol ALRequestDelegate
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  */
 + (void)getStaysForPlace:(ALPlace *)place withDelegate:(id<ALRequestDelegate>)delegate;
 
 /*!
- * Get place detail
+ * Get details for a place.
  * 
  * \param place Valid place. 
- * \param delegate A delegate comform to protocol ALRequestDelegate
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  */
 + (void)getDetailsForPlace:(ALPlace *)place withDelegate:(id<ALRequestDelegate>)delegate;
 
 /*!
- * Get stay detail
+ * Get details for a user stay.
  *
  * \param stay Valid user stay.
- * \param delegate A delegate comform to protocol ALRequestDelegate
+ * \param delegate A delegate that comforms to the ALRequestDelegate protocol.
  */
 + (void)getDetailsForStay:(ALUserStay *)stay withDelegate:(id<ALRequestDelegate>)delegate;
 
 /*! 
- * Get current location
+ * Get the user's current location.
  */
 + (CLLocation *)currentLocation;
 
 /*!
- * Get device's current motion state.
+ * Get the device's current motion state.
  * @see ALMotionState
  */
 + (ALMotionState *)currentMotionState;
 
 /*!
- * Check whether the device is stationary
+ * Check whether the device is stationary.
  * \return YES if the device is NOT moving
  */
 + (BOOL)isStationary;
 
 /*!
- * Check whether the user is moving
- * \return YES if the user is on commute
+ * Check whether the user is in between user stays.
+ * \return YES if the user has left their previous stay, but has not arrived at a new place.
  */
-+ (BOOL)isDriving;
++ (BOOL)isBetweenUserStays;
 
 /*!
- * Check whether the Alohar monitoring service is running
+ * Check whether the Alohar monitoring service is running.
  \return YES if the monitoring service is ON
  */
 + (BOOL)monitoringUser;
 
 /*!
- * Check whether the user has valid credentials
+ * Check whether the user has valid credentials and has an active session.
  * \return YES if the user connected to Alohar
  */
 + (BOOL)isLoggedIn;
 
 /*!
- * History of arrival/departure events
+ * History of arrival/departure events.
  * \return Array of events
  * 
  * Note: There are three type of events: Arrival, Departure, UserStay
- * For Arrival/Departure event, it has following key/value pairs:
+ * For Arrival/Departure events, the NSDictionary has the following key/value pairs:
  * {type:(NSString*), location:(CLLocation*), timestamp:(NSInteger)}
  *
- * For Userstay event, it has following key/value pairs:
+ * For Userstay events, the NSDictionary has the following key/value pairs:
  * {type:(NSString*), stay:(ALUserStay*), timestamp:(NSInteger)}
  *
  */

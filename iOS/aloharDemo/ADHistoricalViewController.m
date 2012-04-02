@@ -58,10 +58,8 @@
 //    [Alohar getUserStaysFromDate:startDate toDate:[NSDate date] withDelegate:self];
     
     //case 3: search for one period around a location
-//    NSInteger lat = 37432110;
-//    NSInteger lon = -122103274;
-//    [Alohar getUserStaysFromDate:startDate toDate:[NSDate date] atLatitudeE6:lat andLongitudeE6:lon radius:500 limit:0 withCandidiates:TRUE withDelegate:self];
-    
+//    CLLocation *location = [[CLLocation alloc] initWithLatitude:37.432110 longitude:-122.103274];
+//    [Alohar getUserStaysFromDate:startDate toDate:[NSDate date] atLocation:location radius:500 limit:100 includeCandidiates:TRUE withDelegate:self];    
 }
 
 - (void)viewDidLoad

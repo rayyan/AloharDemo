@@ -31,7 +31,6 @@
 
 - (void)aloharDidLogin:(NSString *)userToken
 {
-    NSLog(@"Logged in! Token: %@", userToken);
     [[NSUserDefaults standardUserDefaults] setObject:userToken forKey:@"AloharDemoUserID"];
     [Alohar startMonitoringUser];
     

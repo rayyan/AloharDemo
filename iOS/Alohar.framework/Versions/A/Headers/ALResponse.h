@@ -14,7 +14,7 @@ enum {
     kALRequestTypePlaces,
     kALRequestTypeMotionState,
     kALRequestTypeStayDetail,
-    kALRequestTypePlaceDetail,
+    kALRequestTypePlaceDetail
     
 };
 
