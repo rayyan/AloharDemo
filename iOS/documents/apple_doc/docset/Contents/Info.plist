@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.alohar.Alohar-Framework</string>
+	<key>CFBundleName</key>
+	<string>Alohar Framework Documentation</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	
+	
+	
+	
+	<key>DocSetFeedName</key>
+	<string>Alohar Framework Documentation</string>
+	
+	<key>DocSetMinimumXcodeVersion</key>
+	<string>3.0</string>
+	
+	<key>DocSetPublisherIdentifier</key>
+	<string>com.alohar.documentation</string>
+	<key>DocSetPublisherName</key>
+	<string>Alohar Mobile</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2012 Alohar Mobile. All rights reserved.</string>
+</dict>
+</plist>
